@@ -15,7 +15,7 @@ from datadog_api_client import ApiClient
 from datadog_api_client import Configuration as DDCfg
 from logzero import logger
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 
 @contextmanager
