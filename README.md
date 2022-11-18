@@ -3,7 +3,7 @@
 [![Version](https://img.shields.io/pypi/v/chaostoolkit-datadog.svg)](https://img.shields.io/pypi/v/chaostoolkit-datadog.svg)
 [![License](https://img.shields.io/pypi/l/chaostoolkit-datadog.svg)](https://img.shields.io/pypi/l/chaostoolkit-datadog.svg)
 
-![Build](https://github.com/chaostoolkit-incubator/chaostoolkit-datadog/workflows/Build/badge.svg)
+[![Build, Test, and Lint](https://github.com/chaostoolkit-incubator/chaostoolkit-datadog/actions/workflows/build.yaml/badge.svg)](https://github.com/chaostoolkit-incubator/chaostoolkit-datadog/actions/workflows/build.yaml)
 [![Python versions](https://img.shields.io/pypi/pyversions/chaostoolkit-datadog.svg)](https://www.python.org/)
 
 This project contains Chaos Toolkit activities and tolerances to work
