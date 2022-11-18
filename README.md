@@ -1,14 +1,13 @@
 # Chaos Toolkit Extension Template
 
-[![Version](https://img.shields.io/pypi/v/chaostoolkit-my-extension.svg)](https://img.shields.io/pypi/v/chaostoolkit-lib.svg)
-[![License](https://img.shields.io/pypi/l/chaostoolkit-my-extension.svg)](https://img.shields.io/pypi/l/chaostoolkit-lib.svg)
+[![Version](https://img.shields.io/pypi/v/chaostoolkit-datadog.svg)](https://img.shields.io/pypi/v/chaostoolkit-datadog.svg)
+[![License](https://img.shields.io/pypi/l/chaostoolkit-datadog.svg)](https://img.shields.io/pypi/l/chaostoolkit-datadog.svg)
 
-![Build](https://github.com/chaostoolkit/chaostoolkit-lib/workflows/Build/badge.svg)
-[![codecov](https://codecov.io/gh/chaostoolkit/chaostoolkit-my-extension/branch/master/graph/badge.svg)](https://codecov.io/gh/chaostoolkit/chaostoolkit-lib)
-[![Python versions](https://img.shields.io/pypi/pyversions/chaostoolkit-my-extension.svg)](https://www.python.org/)
+![Build](https://github.com/chaostoolkit-incubator/chaostoolkit-datadog/workflows/Build/badge.svg)
+[![Python versions](https://img.shields.io/pypi/pyversions/chaostoolkit-datadog.svg)](https://www.python.org/)
 
-This project should be used as a starting point to create your own
-Chaos Toolkit extension.
+This project contains Chaos Toolkit activities and tolerances to work
+with DataDog.
 
 ## Install
 
@@ -20,12 +19,53 @@ environment where [chaostoolkit][] already lives.
 [chaostoolkit]: https://github.com/chaostoolkit/chaostoolkit
 
 ```
-$ pip install chaostoolkit-<your extension name here>
+$ pip install chaostoolkit-datadog
 ```
 
 ## Usage
 
-<Explain your probes and actions usage from the experiment.json here>
+A typical experiment using this extension would look like this:
+
+```json
+{
+    "version": "1.0.0",
+    "title": "Run a, experiment using a DataDog SLO to verify our system",
+    "description": "n/a",
+    "configuration": {
+        "datadog_host": "https://datadoghq.eu"
+    },
+    "steady-state-hypothesis": {
+        "title": "n/a",
+        "probes": [
+            {
+                "type": "probe",
+                "name": "read-slo",
+                "tolerance": {
+                    "type": "probe",
+                    "name": "check-slo",
+                    "provider": {
+                        "type": "python",
+                        "module": "chaosdatadog.slo.tolerances",
+                        "func": "slo_must_be_met",
+                        "arguments": {
+                            "threshold": "7d"
+                        }
+                    }
+                },
+                "provider": {
+                    "type": "python",
+                    "module": "chaosdatadog.slo.probes",
+                    "func": "get_slo",
+                    "arguments": {
+                        "slo_id": "..."
+                    }
+                }
+            }
+        ]
+    },
+    "method": []
+}
+```
 
 That's it!
 
@@ -33,7 +73,20 @@ Please explore the code to see existing probes and actions.
 
 ## Configuration
 
-<Specify any extra configuration your extension relies on here>
+In the `configuration` block you may want to specify the DataDog host you are
+targetting:
+
+```json
+    "configuration": {
+        "datadog_host": "https://datadoghq.eu"
+    },
+```
+
+The authentication can be set using the typical DataDog environment variables,
+notably:
+
+* `DD_API_KEY`: the API key
+* `DD_APP_KEY`: the application key
 
 ## Test
 
