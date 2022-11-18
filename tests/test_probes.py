@@ -12,6 +12,7 @@ def test_get_slo(rest):
     r.data = json.dumps({}).encode("utf-8")
     cl = MagicMock()
     cl.request.return_value = r
+    cl.configuration.unstable_operations = {"get_slo_history": False}
     rest.RESTClientObject.return_value = cl
 
     results = get_slo(slo_id="slo1")

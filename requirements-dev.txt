@@ -6,3 +6,4 @@ pytest-sugar
 black
 isort
 flake8
+pyflakes==2.4.0

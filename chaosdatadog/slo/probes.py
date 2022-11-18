@@ -48,7 +48,6 @@ def get_slo(
     dictionary.
     """  # noqa: E501
     with get_client(configuration, secrets) as c:
-        c.configuration.unstable_operations["get_slo_history"] = True
         api = ServiceLevelObjectivesApi(c)
 
         now = arrow.utcnow()

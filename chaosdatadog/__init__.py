@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-import warnings
 from contextlib import contextmanager
 from typing import Generator, List
 
@@ -17,7 +15,6 @@ from datadog_api_client import ApiClient
 from datadog_api_client import Configuration as DDCfg
 from logzero import logger
 
-warnings.filterwarnings("ignore", message="Using unstable operation")
 __version__ = "0.1.0"
 
 
