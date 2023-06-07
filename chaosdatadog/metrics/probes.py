@@ -3,9 +3,11 @@ from typing import Literal
 
 from chaoslib.exceptions import ActivityFailed
 from chaoslib.types import Configuration, Secrets
+from datadog_api_client.exceptions import ApiTypeError, NotFoundException
 from datadog_api_client.v1.api.metrics_api import MetricsApi
 from dateutil.relativedelta import relativedelta
 from logzero import logger
+from utils import extract_metric_name
 
 from chaosdatadog import get_client
 
@@ -45,23 +47,39 @@ def get_metrics_state(
     with get_client(configuration, secrets) as c:
         api = MetricsApi(c)
 
-    metrics = api.query_metrics(
-        _from=int(
-            (
-                datetime.now() + relativedelta(minutes=-minutes_before)
-            ).timestamp()
-        ),
-        to=int(datetime.now().timestamp()),
-        query=query,
-    )
+        metric_name = extract_metric_name(query)
 
-    metrics = metrics.to_dict()
-    series = metrics.get("series", [{}])
-    if not series:
-        raise ActivityFailed("The query could not get points")
+        try:
+            api.get_metric_metadata(metric_name)
+        except NotFoundException as e:
+            raise ActivityFailed("The metric name doesn't exist !") from e
+        except ApiTypeError as e:
+            raise ActivityFailed("The metric name doesn't exist !") from e
 
-    series = series[0] if len(series) > 0 else {}
-    point_list = series.get("pointlist", [])
-    logger.info(point_list)
-    point_value_list = [subpoints[1] for subpoints in point_list]
-    return all(eval(f"_ {comparison} {threshold}") for _ in point_value_list)
+        metrics = api.query_metrics(
+            _from=int(
+                (
+                    datetime.now() + relativedelta(minutes=-minutes_before)
+                ).timestamp()
+            ),
+            to=int(datetime.now().timestamp()),
+            query=query,
+        )
+
+        metrics = metrics.to_dict()
+        series = metrics.get("series", [{}])
+        if not series:
+            point_list = [
+                [datetime.now().timestamp(), 0],
+                [datetime.now().timestamp(), 0],
+                [datetime.now().timestamp(), 0],
+                [datetime.now().timestamp(), 0],
+            ]
+            series = [{"pointlist": point_list}]
+        series = series[0] if len(series) > 0 else {}
+        point_list = series.get("pointlist", [])
+        logger.info(point_list)
+        point_value_list = [subpoints[1] for subpoints in point_list]
+        return all(
+            eval(f"_ {comparison} {threshold}") for _ in point_value_list
+        )
