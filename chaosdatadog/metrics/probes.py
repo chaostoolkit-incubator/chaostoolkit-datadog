@@ -51,10 +51,10 @@ def get_metrics_state(
 
         try:
             api.get_metric_metadata(metric_name)
-        except NotFoundException as e:
-            raise ActivityFailed("The metric name doesn't exist !") from e
-        except ApiTypeError as e:
-            raise ActivityFailed("The metric name doesn't exist !") from e
+        except NotFoundException:
+            raise ActivityFailed("The metric name doesn't exist !")
+        except ApiTypeError:
+            raise ActivityFailed("The metric name wasn't in datadog format!")
 
         metrics = api.query_metrics(
             _from=int(
