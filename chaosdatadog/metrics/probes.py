@@ -89,6 +89,4 @@ def get_metrics_state(
         point_list = series.get("pointlist", [])
         point_value_list = [subpoints[1] for subpoints in point_list]
         compare_function = get_comparison_operator(comparison)
-        return all(
-            compare_function(_, threshold) for _ in point_value_list
-        )
+        return all(compare_function(_, threshold) for _ in point_value_list)
