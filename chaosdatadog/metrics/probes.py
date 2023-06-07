@@ -1,12 +1,13 @@
 from typing import Any, Dict, Literal
 from chaoslib.types import Configuration, Secrets
 from chaoslib.exceptions import ActivityFailed
-from datadog_api_client.v2.api.metrics_api import (
+from datadog_api_client.v1.api.metrics_api import (
     MetricsApi,
 )
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from chaosdatadog import get_client
+from logzero import logger
 
 __all__ = ["get_metrics_state"]
 
@@ -59,9 +60,11 @@ def get_metrics_state(
 
     metrics = metrics.to_dict()
     series = metrics.get("series", [{}])
+    if not series:
+        raise ActivityFailed("The query could not get points")
     series = series[0] if len(series) > 0 else {}
     point_list = series.get("pointlist", [])
-    if point_value_list := [subpoints[1] for subpoints in point_list]:
-        return all(eval(f"_ {comparison} threshold") for _ in point_value_list)
-    else:
-        raise ActivityFailed("The query could not get points")
+    logger.info(point_list)
+    point_value_list = [subpoints[1] for subpoints in point_list]
+    return not all(eval(f"_ {comparison} {threshold}")
+                   for _ in point_value_list)
