@@ -1,21 +1,25 @@
 from datetime import datetime
-from typing import Literal
 
 from chaoslib.exceptions import ActivityFailed
 from chaoslib.types import Configuration, Secrets
 from datadog_api_client.exceptions import ApiTypeError, NotFoundException
 from datadog_api_client.v1.api.metrics_api import MetricsApi
 from dateutil.relativedelta import relativedelta
+from logzero import logger
 
 from chaosdatadog import get_client
-from chaosdatadog.metrics.utils import extract_metric_name
+from chaosdatadog.metrics.utils import (
+    check_comparison_values,
+    extract_metric_name,
+    get_comparison_operator,
+)
 
 __all__ = ["get_metrics_state"]
 
 
 def get_metrics_state(
     query: str,
-    comparison: Literal[">", "<", ">=", "<=", "=="],
+    comparison: str,
     threshold: float,
     minutes_before: int,
     configuration: Configuration = None,
@@ -41,7 +45,14 @@ def get_metrics_state(
     you have a deviant hypothesis if you have more than 30 http_500 errors
     the comparison should be <. so any value below 30 is a steady state.
 
+    the allowed comparison values are [">", "<", ">=", "<=", "=="]
+
     """
+
+    try:
+        check_comparison_values(comparison)
+    except ValueError as e:
+        raise ActivityFailed(e)
 
     with get_client(configuration, secrets) as c:
         api = MetricsApi(c)
@@ -50,9 +61,11 @@ def get_metrics_state(
 
         try:
             api.get_metric_metadata(metric_name)
-        except NotFoundException:
+        except NotFoundException as e:
+            logger.debug(e)
             raise ActivityFailed("The metric name doesn't exist !")
-        except ApiTypeError:
+        except ApiTypeError as e:
+            logger.debug(e)
             raise ActivityFailed("The metric name wasn't in datadog format!")
 
         metrics = api.query_metrics(
@@ -70,14 +83,12 @@ def get_metrics_state(
         if not series:
             point_list = [
                 [datetime.now().timestamp(), 0],
-                [datetime.now().timestamp(), 0],
-                [datetime.now().timestamp(), 0],
-                [datetime.now().timestamp(), 0],
             ]
             series = [{"pointlist": point_list}]
         series = series[0] if len(series) > 0 else {}
         point_list = series.get("pointlist", [])
         point_value_list = [subpoints[1] for subpoints in point_list]
+        compare_function = get_comparison_operator(comparison)
         return all(
-            eval(f"_ {comparison} {threshold}") for _ in point_value_list
+            compare_function(_, threshold) for _ in point_value_list
         )

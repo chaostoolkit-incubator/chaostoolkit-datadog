@@ -9,7 +9,7 @@ from chaosdatadog.metrics.probes import get_metrics_state
 @patch("datadog_api_client.api_client.rest", autospec=False)
 def test_get_metrics_state(mock_get_client):
     query = "query"
-    comparison = "<"
+    comparison = ">"
     threshold = 40
     minutes_before = 1
 

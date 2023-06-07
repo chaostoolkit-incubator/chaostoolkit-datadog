@@ -4,9 +4,6 @@
 
 [Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-datadog/compare/main...jitapichab:chaostoolkit-datadog:feature/datadog_metrics
 
-
-## [Unreleased][]
-
 [Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-datadog/compare/0.1.1...HEAD
 
 ## [0.1.1][]
