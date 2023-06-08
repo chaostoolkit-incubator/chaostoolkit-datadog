@@ -2,6 +2,10 @@
 
 ## [Unreleased][]
 
+### Added
+
+* Metrics probe `chaosdatadog.metrics.get_metrics_state`
+
 [Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-datadog/compare/0.1.1...HEAD
 
 ## [0.1.1][]

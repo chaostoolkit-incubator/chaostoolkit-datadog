@@ -63,5 +63,6 @@ def load_exported_activities() -> List[DiscoveredActivities]:
     activities = []  # type: ignore
 
     activities.extend(discover_probes("chaosdatadog.slo.probes"))
+    activities.extend(discover_probes("chaosdatadog.metrics.probes"))
 
     return activities
