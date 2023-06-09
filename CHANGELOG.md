@@ -2,11 +2,15 @@
 
 ## [Unreleased][]
 
+[Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-datadog/compare/0.1.1...HEAD
+
 ### Added
 
 * Metrics probe `chaosdatadog.metrics.get_metrics_state`
 
-[Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-datadog/compare/0.1.1...HEAD
+### Fixed
+
+* SLO test
 
 ## [0.1.1][]
 

@@ -9,6 +9,9 @@ from chaosdatadog.slo.probes import get_slo
 def test_get_slo(rest):
     r = MagicMock()
     r.getheader.return_value = None
+    r.headers = {
+        "Content-Type": "application/json"
+    }
     r.data = json.dumps({}).encode("utf-8")
     cl = MagicMock()
     cl.request.return_value = r
