@@ -4,6 +4,11 @@
 
 [Unreleased]: https://github.com/chaostoolkit-incubator/chaostoolkit-datadog/compare/0.2.0...HEAD
 
+### Changed
+
+* Moved away from `setuptools` to `pdm` to manage the package
+* Moved to `ruff` to lint the code
+
 ## [0.2.0][]
 
 [0.2.0]: https://github.com/chaostoolkit-incubator/chaostoolkit-datadog/compare/0.1.1...0.2.0

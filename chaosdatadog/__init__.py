@@ -1,4 +1,5 @@
 from contextlib import contextmanager
+from importlib.metadata import version, PackageNotFoundError
 from typing import Generator, List
 
 from chaoslib.discovery.discover import (
@@ -15,7 +16,10 @@ from datadog_api_client import ApiClient
 from datadog_api_client import Configuration as DDCfg
 from logzero import logger
 
-__version__ = "0.2.0"
+try:
+    __version__ = version("chaostoolkit-datadog")
+except PackageNotFoundError:
+    __version__ = "unknown"
 
 
 @contextmanager

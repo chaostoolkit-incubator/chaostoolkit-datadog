@@ -104,3 +104,10 @@ ENV/
 junit-test-results.xml
 
 .pytest_cache/
+
+# pdm
+.pdm-python
+.pdm-build/
+
+# ruff
+.ruff_cache/

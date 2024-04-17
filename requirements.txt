@@ -1,3 +1,0 @@
-chaostoolkit-lib~=1.25
-datadog-api-client
-arrow
