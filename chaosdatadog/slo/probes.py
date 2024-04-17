@@ -1,3 +1,4 @@
+import logging
 from typing import Any, Dict
 
 import arrow
@@ -5,11 +6,11 @@ from chaoslib.types import Configuration, Secrets
 from datadog_api_client.v1.api.service_level_objectives_api import (
     ServiceLevelObjectivesApi,
 )
-from logzero import logger
 
 from chaosdatadog import get_client
 
 __all__ = ["get_slo", "get_slo_details"]
+logger = logging.getLogger("chaostoolkit")
 
 
 def get_slo_details(

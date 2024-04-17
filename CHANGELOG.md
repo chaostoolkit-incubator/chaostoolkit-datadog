@@ -8,6 +8,7 @@
 
 * Moved away from `setuptools` to `pdm` to manage the package
 * Moved to `ruff` to lint the code
+* Dropped `logzero`
 
 ## [0.2.0][]
 

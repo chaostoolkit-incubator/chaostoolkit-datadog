@@ -1,9 +1,10 @@
+import logging
 from typing import Any, Dict
 
 from chaoslib.exceptions import ActivityFailed
-from logzero import logger
 
 __all__ = ["slo_must_be_met"]
+logger = logging.getLogger("chaostoolkit")
 
 
 def slo_must_be_met(

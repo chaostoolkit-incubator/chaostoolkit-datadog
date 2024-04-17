@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 
 from chaoslib.exceptions import ActivityFailed
@@ -5,7 +6,6 @@ from chaoslib.types import Configuration, Secrets
 from datadog_api_client.exceptions import ApiTypeError, NotFoundException
 from datadog_api_client.v1.api.metrics_api import MetricsApi
 from dateutil.relativedelta import relativedelta
-from logzero import logger
 
 from chaosdatadog import get_client
 from chaosdatadog.metrics.utils import (
@@ -15,6 +15,7 @@ from chaosdatadog.metrics.utils import (
 )
 
 __all__ = ["get_metrics_state"]
+logger = logging.getLogger("chaostoolkit")
 
 
 def get_metrics_state(
