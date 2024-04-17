@@ -1,9 +1,9 @@
-# Chaos Toolkit Extension Template
+# Chaos Toolkit Extension For Datadog
 
 [![Version](https://img.shields.io/pypi/v/chaostoolkit-datadog.svg)](https://img.shields.io/pypi/v/chaostoolkit-datadog.svg)
 [![License](https://img.shields.io/pypi/l/chaostoolkit-datadog.svg)](https://img.shields.io/pypi/l/chaostoolkit-datadog.svg)
 
-[![Build, Test, and Lint](https://github.com/chaostoolkit-incubator/chaostoolkit-datadog/actions/workflows/build.yaml/badge.svg)](https://github.com/chaostoolkit-incubator/chaostoolkit-datadog/actions/workflows/build.yaml)
+[![Build](https://github.com/chaostoolkit-incubator/chaostoolkit-datadog/actions/workflows/build.yaml/badge.svg)](https://github.com/chaostoolkit-incubator/chaostoolkit-datadog/actions/workflows/build.yaml)
 [![Python versions](https://img.shields.io/pypi/pyversions/chaostoolkit-datadog.svg)](https://www.python.org/)
 
 This project contains Chaos Toolkit activities and tolerances to work
@@ -11,7 +11,7 @@ with DataDog.
 
 ## Install
 
-This package requires Python 3.7+
+This package requires Python 3.8+
 
 To be used from your experiment, this package must be installed in the Python
 environment where [chaostoolkit][] already lives.
@@ -93,23 +93,20 @@ notably:
 To run the tests for the project execute the following:
 
 ```
-$ pytest
+$ pdm run test
 ```
 
 ### Formatting and Linting
 
-We use a combination of [`black`][black], [`flake8`][flake8], and [`isort`][isort]
-to both lint and format this repositories code.
+We use [`ruff`][ruff] to both lint and format this repositories code.
 
-[black]: https://github.com/psf/black
-[flake8]: https://github.com/PyCQA/flake8
-[isort]: https://github.com/PyCQA/isort
+[ruff]: https://github.com/astral-sh/ruff
 
 Before raising a Pull Request, we recommend you run formatting against your
 code with:
 
 ```console
-$ make format
+$ pdm run format
 ```
 
 This will automatically format any code that doesn't adhere to the formatting
@@ -118,7 +115,7 @@ standards.
 As some things are not picked up by the formatting, we also recommend you run:
 
 ```console
-$ make lint
+$ pdm run lint
 ```
 
 To ensure that any unused import statements/strings that are too long, etc.
@@ -131,4 +128,4 @@ welcome to do so. Please, fork this project, make your changes following the
 usual [PEP 8][pep8] code style, sprinkling with tests and submit a PR for
 review.
 
-[pep8]: https://pycodestyle.readthedocs.io/en/latest/
+[pep8]: https://peps.python.org/pep-0008/
